@@ -1,31 +1,29 @@
-package com.xworkz.nammayatra.configuration;
+package com.xworkz.game.configuration;
 
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebInitialization extends AbstractAnnotationConfigDispatcherServletInitializer implements WebMvcConfigurer {
-
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        System.out.println("getRootConfigClasses is Called");
+        System.out.println("called getRootConfigClasses");
         return null;
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        System.out.println("getServletConfigClasses is called");
+        System.out.println("called getServletConfigClasses");
         return new Class[]{WebConfiguration.class};
     }
 
     @Override
     protected String[] getServletMappings() {
-        System.out.println("getServletMappings is called");
+        System.out.println("called getServletMappings");
         return new String[]{"/"};
     }
-
     @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer defaultServletHandlerConfigurer) {
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer defaultServletHandlerConfigurer){
         defaultServletHandlerConfigurer.enable();
     }
 }
