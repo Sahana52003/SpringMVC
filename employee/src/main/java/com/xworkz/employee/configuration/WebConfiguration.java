@@ -1,22 +1,21 @@
-package com.xworkz.game.configuration;
+package com.xworkz.employee.configuration;
 
 
-import com.xworkz.game.dto.GameDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan("com.xworkz.game")
+@ComponentScan("com.xworkz.employee")
 public class WebConfiguration {
     public WebConfiguration(){
         System.out.println("WebConfiguration is Created");
     }
 
     @Bean
-    public GameDTO game(){
-        System.out.println("Calling Game class");
-        return new GameDTO();
+    public String DroneDTO(){
+        System.out.println("Calling DroneDTO");
+        return "null";
     }
 }
-
