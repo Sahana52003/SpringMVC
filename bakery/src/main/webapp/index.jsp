@@ -22,5 +22,7 @@
         <script src="script.js"></script>
         <button type="submit">Submit</button>
     </form>
+    <script src="script.js"></script>
 </body>
+
 </html>
