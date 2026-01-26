@@ -1,0 +1,52 @@
+/* Reset some default styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f3f4f6;
+}
+
+/* Navbar styling */
+.navbar {
+    background-color: #2563eb; /* Blue navbar */
+    padding: 15px 0;
+    text-align: center;
+}
+
+/* Container for buttons */
+.nav-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Button styling */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+/* Sign Up button */
+.signup {
+    background-color: #22c55e; /* Green */
+    color: white;
+}
+
+.signup:hover {
+    background-color: #16a34a;
+}
+
+/* Sign In button */
+.signin {
+    background-color: #f59e0b; /* Orange */
+    color: white;
+}
+
+.signin:hover {
+    background-color: #d97706;
+}
