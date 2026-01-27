@@ -1,28 +1,45 @@
 package com.xworkz.homepage.service;
 
+import com.xworkz.homepage.dao.HomepageDAO;
+import com.xworkz.homepage.dao.InsertPageDAO;
 import com.xworkz.homepage.dto.HomepageDTO;
+import com.xworkz.homepage.exception.InvalidException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class HomepageService {
-    public boolean validate(HomepageDTO homepageDTO){
-        if (homepageDTO.getFirstName().length()>=5&&homepageDTO.getFirstName().length()<=10){
-            System.out.println("Enter a valid Name");
-            return false;
+    @Autowired
+    private InsertPageDAO insertPageDAO;
+    @Autowired
+    HomepageDAO homepageDAO;
+
+    public boolean signupValidate(HomepageDTO homepageDTO) {
+        if (homepageDTO.getFirstName() != null && homepageDTO.getFirstName().length() >= 3 && homepageDTO.getFirstName().length() <= 10
+                && homepageDTO.getLastName() != null && homepageDTO.getEmail() != null && homepageDTO.getEmail().length() >= 7 && homepageDTO.getEmail().length() <= 16 && homepageDTO.getEmail().contains("@gmail.com") &&
+                homepageDTO.getPassword() != null && homepageDTO.getPassword().length() >= 6
+                && homepageDTO.getPassword().equals(homepageDTO.getConfirmpassword())) {
+            insertPageDAO.validateHomePage(homepageDTO);
+            return true;
+        } else {
+            throw new InvalidException("Invalid Signup Data");
         }
-        if(homepageDTO.getLastName().length()>=2&&homepageDTO.getLastName().length()<=3){
-            System.out.println("Enter a correct Initial Name");
-            return false;
+    }
+
+    public boolean signinValidation(String email, String password) {
+
+        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
+            throw new InvalidException("Email or password cannot be empty");
         }
-        if (homepageDTO.getEmail().length()>=15&&homepageDTO.getEmail().contains("@gmail.com")){
-            System.out.println("Enter a valid Email-Id");
-            return false;
+
+        String storedPassword = homepageDAO.dataEntered(email);
+
+        if (storedPassword == null) {
+            throw new InvalidException("Email not found");
         }
-        if(homepageDTO.getPassword().length()>=10){
-            System.out.println("Enter a valid password");
-            return false;
-        }
-        if (homepageDTO.getPassword().equals(homepageDTO.getConfirmpassword())){
-            System.out.println("Enter a confirm password");
-            return false;
+
+        if (!storedPassword.equals(password)) {
+            throw new InvalidException("Password mismatch");
         }
         return true;
     }

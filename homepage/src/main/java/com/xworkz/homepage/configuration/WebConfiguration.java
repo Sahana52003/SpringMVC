@@ -21,10 +21,8 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Bean
     public ViewResolver login(){
+
         return new InternalResourceViewResolver("",".jsp");
-    }
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry){
-        registry.addResourceHandler("/").addResourceLocations(".css");
+
     }
 }

@@ -6,20 +6,20 @@
     <title>Sign-Up</title>
 </head>
 <body>
-    <form action="home" method="post">
-        <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-            <div class="col-sm-10">
-                <input type="email" class="form-control" id="inputEmail3" name="email">
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
-            <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword3" name="password">
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Sign in</button>
-    </form>
+<form action="status" method="post" onsubmit="return validateSignup()">
+
+    <input type="text" name="firstName" placeholder="First Name">
+
+    <input type="text" name="lastName" placeholder="Last Name">
+
+    <input type="email" name="email" placeholder="Email">
+
+    <input type="password" name="password" placeholder="Password">
+
+    <input type="password" name="confirmpassword" placeholder="Confirm Password">
+
+    <button type="submit">Sign Up</button>
+</form>
+<script src="script.js"></script>
 </body>
 </html>
