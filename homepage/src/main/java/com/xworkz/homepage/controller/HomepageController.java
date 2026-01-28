@@ -47,14 +47,14 @@ public class HomepageController {
 
     @PostMapping("/status")
     public String signupStatus(HomepageDTO homepageDTO){
-
-        boolean success=homepageService.signupValidate(homepageDTO);
-        if(success){
-            return "Success";
-        }else{
-            return "Failed to Signup";
-        }
-//        return "signup";
+            try {
+                boolean success = homepageService.signupValidate(homepageDTO);
+                System.out.println("Signup successfully");
+                return "signup";
+            }catch (InvalidException obj){
+                System.out.println("Failed to signup");
+                return "signup";
+            }
     }
 
 
@@ -62,7 +62,7 @@ public class HomepageController {
     public String login(String email,String password){
         try {
             boolean isLogin=homepageService.signinValidation(email,password);
-            System.out.println("Login successfull");
+            System.out.println("Login successfully");
             return "home";
         }catch (InvalidException e){
             System.out.println("Login failed to enter");
