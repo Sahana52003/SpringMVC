@@ -4,43 +4,65 @@ import com.xworkz.homepage.dao.HomepageDAO;
 import com.xworkz.homepage.dao.InsertPageDAO;
 import com.xworkz.homepage.dto.HomepageDTO;
 import com.xworkz.homepage.exception.InvalidException;
+import com.xworkz.homepage.util.EncDec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class HomepageService {
+
     @Autowired
     private InsertPageDAO insertPageDAO;
+
     @Autowired
-    HomepageDAO homepageDAO;
+    private HomepageDAO homepageDAO;
 
     public boolean signupValidate(HomepageDTO homepageDTO) {
-        if (homepageDTO.getFirstName() != null && homepageDTO.getFirstName().length() >= 3 && homepageDTO.getFirstName().length() <= 10
-                && homepageDTO.getLastName() != null && homepageDTO.getEmail() != null && homepageDTO.getEmail().length() >= 7 && homepageDTO.getEmail().length() <= 16 && homepageDTO.getEmail().contains("@gmail.com") &&
-                homepageDTO.getPassword() != null && homepageDTO.getPassword().length() >= 6
-                && homepageDTO.getPassword().equals(homepageDTO.getConfirmpassword())) {
-            insertPageDAO.validateHomePage(homepageDTO);
+
+        // Trim all input fields
+        String firstName = homepageDTO.getFirstName() != null ? homepageDTO.getFirstName().trim() : "";
+        String lastName = homepageDTO.getLastName() != null ? homepageDTO.getLastName().trim() : "";
+        String email = homepageDTO.getEmail() != null ? homepageDTO.getEmail().trim() : "";
+        String password = homepageDTO.getPassword() != null ? homepageDTO.getPassword().trim() : "";
+        String confirmPassword = homepageDTO.getConfirmpassword() != null ? homepageDTO.getConfirmpassword().trim() : "";
+
+        // Single validation if-statement
+        if (!firstName.isEmpty() && firstName.length() >= 5 && !firstName.matches(".*\\d.*")
+                && !lastName.isEmpty() && lastName.length() >= 1
+                && !email.isEmpty() && email.contains("@gmail.com")
+                && password.length() >= 6 && password.matches("^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*]).+$")
+                && password.equals(confirmPassword)) {
+
+            insertPageDAO.validateHomePage(homepageDTO); // Save to DB
+            System.out.println("Signup Successful for: " + firstName);
             return true;
+
         } else {
-            throw new InvalidException("Invalid Signup Data");
+            throw new InvalidException("Invalid signup data. Please check all fields.");
         }
     }
 
     public boolean signinValidation(String email, String password) {
-
         if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
             throw new InvalidException("Email or password cannot be empty");
         }
 
-        String storedPassword = homepageDAO.dataEntered(email);
-
-        if (storedPassword == null) {
+        String storedEncryptedPassword = homepageDAO.dataEntered(email); // gets encrypted password from DB
+        if (storedEncryptedPassword == null) {
             throw new InvalidException("Email not found");
         }
 
-        if (!storedPassword.equals(password)) {
-            throw new InvalidException("Password mismatch");
+        try {
+            String decryptedPassword = EncDec.decrypt(storedEncryptedPassword); // decrypt
+            if (!decryptedPassword.equals(password)) {
+                throw new InvalidException("Password mismatch");
+            }
+        } catch (Exception e) {
+            throw new InvalidException("Error decrypting password");
         }
+
+        System.out.println("Login successful for: " + email);
         return true;
     }
+
 }

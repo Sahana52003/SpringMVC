@@ -10,7 +10,7 @@
         body {
             background-color: white;
             color: white;
-            background-image: url("resources/images/download (1).jpg");
+            background-image: url("resources/images/pexels-pixabay-459203.jpg");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
